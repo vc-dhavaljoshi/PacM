@@ -6,13 +6,13 @@
         <label>Comment</label><br/>
         <textarea name="content" v-model="content"></textarea>
         <br/><br/>
-        <button type="button" name="post" v-on:click="replyTo(comment)">Post</button>
+        <button type="button" name="post" v-on:click="reply((comment) ? comment.id : null)">Post</button>
     </form>
 </template>
 <script>
     const axios = require('axios');
     export default{
-        props: ['comment'],
+        props: ["comment", { "replyTo" : { type: Function }}],
         data(){
             return{
                 content: '',
@@ -20,17 +20,16 @@
             }
         },
         methods:{
-            replyTo(comment) {
+            reply(comment) {
                 let data = {
                     content: this.content,
                     post_id: 1,
-                    parent_id: (comment) ? comment.id : null,
-                    user:this.user
+                    parent_id: comment,
+                    user:this.user 
                 };
-                axios.post('/api/comment/store', data).then(response => {
-                   this.content = '';
-                   this.user = '';
-                });
+                this.content = '';
+                this.user = '';
+                this.$parent.replyTo(data);
             }
         }
     }

@@ -1942,7 +1942,11 @@ __webpack_require__.r(__webpack_exports__);
 var axios = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-  props: ['comment'],
+  props: ["comment", {
+    "replyTo": {
+      type: Function
+    }
+  }],
   data: function data() {
     return {
       content: '',
@@ -1950,19 +1954,16 @@ var axios = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
     };
   },
   methods: {
-    replyTo: function replyTo(comment) {
-      var _this = this;
-
+    reply: function reply(comment) {
       var data = {
         content: this.content,
         post_id: 1,
-        parent_id: comment ? comment.id : null,
+        parent_id: comment,
         user: this.user
       };
-      axios.post('/api/comment/store', data).then(function (response) {
-        _this.content = '';
-        _this.user = '';
-      });
+      this.content = '';
+      this.user = '';
+      this.$parent.replyTo(data);
     }
   }
 });
@@ -2060,6 +2061,13 @@ var axios = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
 
       axios.get('/api/comment/listing').then(function (response) {
         _this.comments = response.data.data;
+      });
+    },
+    replyTo: function replyTo(comment) {
+      var _this2 = this;
+
+      axios.post('/api/comment/store', comment).then(function (response) {
+        _this2.getComments();
       });
     }
   }
@@ -2634,7 +2642,7 @@ var render = function() {
         attrs: { type: "button", name: "post" },
         on: {
           click: function($event) {
-            return _vm.replyTo(_vm.comment)
+            _vm.reply(_vm.comment ? _vm.comment.id : null)
           }
         }
       },

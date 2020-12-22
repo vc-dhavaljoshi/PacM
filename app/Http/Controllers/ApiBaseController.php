@@ -26,7 +26,7 @@ class ApiBaseController extends Controller
         $this->response['data'] = $response['data'];
         $this->response['message'] = $response['message'];
 
-        return $this->response;
+        return response()->json($this->response, $statusCode);
     }
     
     /**
@@ -42,6 +42,6 @@ class ApiBaseController extends Controller
         $this->response['data'] = $response['data'];
         $this->response['message'] = $response['message'];
 
-        return $this->response;
+        return response()->json($this->response,200);
     }
 }

@@ -11,7 +11,7 @@
         <li v-for="comment in comments">
             <b>{{ comment.user }}:</b> {{ comment.content }}
             <a @click="replyToComment = comment" href="javascript::void()">Reply</a>
-            <comment-form v-if="replyToComment == comment" :comment="comment"></comment-form>
+            <comment-form v-if="replyToComment == comment" :comment="comment" ></comment-form>
             <comment-list v-if="comment.children.length != 0" :comment="comment.children" :depath=0></comment-list>
         </li>
     </ul>
@@ -41,6 +41,11 @@
             getComments(){
                 axios.get('/api/comment/listing').then(response => {
                     this.comments = response.data.data;
+                });
+            },
+            replyTo(comment) {
+                axios.post('/api/comment/store', comment).then(response => {
+                  this.getComments();
                 });
             }
         }

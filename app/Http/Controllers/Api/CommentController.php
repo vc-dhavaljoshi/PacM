@@ -27,6 +27,7 @@ class CommentController extends ApiBaseController
 
             return $this->successResponse($response);
         } catch (\Exception $exception) {
+            
             $response['data'] = [];
             $response['status_code'] = 500;
             $response['message'] = 'something went to wrong!';
@@ -67,6 +68,7 @@ class CommentController extends ApiBaseController
             }
 
         } catch (\Exception $exception) {
+            dd($exception->getMessage());
             $response['data'] = [];
             $response['status_code'] = 500;
             $response['message'] = 'something went to wrong!';
