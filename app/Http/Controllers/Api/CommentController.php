@@ -18,6 +18,7 @@ class CommentController extends ApiBaseController
         try {
             $comments = Comment::with('children')
             ->whereNull('parent_id')
+            ->orderByDesc('id')
             ->get();  
             
             $response['data'] = $comments;
