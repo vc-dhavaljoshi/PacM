@@ -15,7 +15,23 @@ class CommentController extends ApiBaseController
      */
     public function index()
     {
-        //
+        try {
+            $comments = Comment::with('children')
+            ->whereNull('parent_id')
+            ->get();  
+            
+            $response['data'] = $comments;
+            $response['status_code'] = 200;
+            $response['message'] = '';
+
+            return $this->successResponse($response);
+        } catch (\Exception $exception) {
+            $response['data'] = [];
+            $response['status_code'] = 500;
+            $response['message'] = 'something went to wrong!';
+
+            return $this->errorResponse($response, 500);
+        }
     }
 
     /**

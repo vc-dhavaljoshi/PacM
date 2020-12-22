@@ -15,4 +15,8 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+//Store Comment
 Route::post('comment/store',[CommentController::class,'store']);
+
+//Get Comments
+Route::get('comment/listing',[CommentController::class,'index']);
