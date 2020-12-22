@@ -9,10 +9,10 @@
     <comment-form></comment-form>
     <ul class="list-group">
         <li v-for="comment in comments">
-            {{ comment.user }} said {{ comment.content }}
+            <b>{{ comment.user }}:</b> {{ comment.content }}
             <a @click="replyToComment = comment" href="javascript::void()">Reply</a>
             <comment-form v-if="replyToComment == comment" :comment="comment"></comment-form>
-            <comment-list v-if="comment.children.length != 0" :comment="comment.children"></comment-list>
+            <comment-list v-if="comment.children.length != 0" :comment="comment.children" :depath=0></comment-list>
         </li>
     </ul>
 </div>   

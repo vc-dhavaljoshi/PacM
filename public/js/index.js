@@ -1992,7 +1992,7 @@ __webpack_require__.r(__webpack_exports__);
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: 'CommentList',
-  props: ['comment'],
+  props: ['comment', 'depath'],
   data: function data() {
     return {
       replyToComment: false
@@ -2671,32 +2671,31 @@ var render = function() {
       return _c(
         "li",
         [
-          _vm._v(
-            "\n        " +
-              _vm._s(child.user) +
-              " said " +
-              _vm._s(child.content) +
-              "\n        "
-          ),
-          _c(
-            "a",
-            {
-              attrs: { href: "javascript::void()" },
-              on: {
-                click: function($event) {
-                  _vm.replyToComment = child
-                }
-              }
-            },
-            [_vm._v("Reply")]
-          ),
+          _c("b", [_vm._v(_vm._s(child.user) + " : ")]),
+          _vm._v("  " + _vm._s(child.content) + "\n        "),
+          _vm.depath < 1
+            ? _c(
+                "a",
+                {
+                  attrs: { href: "javascript::void()" },
+                  on: {
+                    click: function($event) {
+                      _vm.replyToComment = child
+                    }
+                  }
+                },
+                [_vm._v("Reply")]
+              )
+            : _vm._e(),
           _vm._v(" "),
           _vm.replyToComment == child
             ? _c("comment-form", { attrs: { comment: child } })
             : _vm._e(),
           _vm._v(" "),
           child.children.length != 0
-            ? _c("comment-list", { attrs: { comment: child.children } })
+            ? _c("comment-list", {
+                attrs: { comment: child.children, depath: _vm.depath + 1 }
+              })
             : _vm._e()
         ],
         1
@@ -2750,13 +2749,8 @@ var render = function() {
           return _c(
             "li",
             [
-              _vm._v(
-                "\r\n            " +
-                  _vm._s(comment.user) +
-                  " said " +
-                  _vm._s(comment.content) +
-                  "\r\n            "
-              ),
+              _c("b", [_vm._v(_vm._s(comment.user) + ":")]),
+              _vm._v(" " + _vm._s(comment.content) + "\r\n            "),
               _c(
                 "a",
                 {
@@ -2775,7 +2769,9 @@ var render = function() {
                 : _vm._e(),
               _vm._v(" "),
               comment.children.length != 0
-                ? _c("comment-list", { attrs: { comment: comment.children } })
+                ? _c("comment-list", {
+                    attrs: { comment: comment.children, depath: 0 }
+                  })
                 : _vm._e()
             ],
             1
